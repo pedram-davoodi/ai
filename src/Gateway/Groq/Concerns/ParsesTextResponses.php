@@ -50,6 +50,7 @@ trait ParsesTextResponses
         ?string $instructions = null,
         array $originalMessages = [],
         ?int $timeout = null,
+        string $model = '',
     ): TextResponse {
         return $this->processResponse(
             $data,
@@ -59,6 +60,7 @@ trait ParsesTextResponses
             $schema,
             new Collection,
             new Collection,
+            model: $model,
             instructions: $instructions,
             originalMessages: $originalMessages,
             maxSteps: $options?->maxSteps,
@@ -78,6 +80,7 @@ trait ParsesTextResponses
         ?array $schema,
         Collection $steps,
         Collection $messages,
+        string $model = '',
         ?string $instructions = null,
         array $originalMessages = [],
         int $depth = 0,
@@ -87,7 +90,6 @@ trait ParsesTextResponses
     ): TextResponse {
         $choice = $data['choices'][0] ?? [];
         $message = $choice['message'] ?? [];
-        $model = $data['model'] ?? '';
 
         $text = $message['content'] ?? '';
         $rawToolCalls = $message['tool_calls'] ?? [];
@@ -308,6 +310,7 @@ trait ParsesTextResponses
             $schema,
             $steps,
             $messages,
+            $model,
             $instructions,
             $originalMessages,
             $depth,

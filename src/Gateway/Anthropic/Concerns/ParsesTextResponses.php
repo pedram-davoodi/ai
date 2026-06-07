@@ -80,7 +80,7 @@ trait ParsesTextResponses
         ?int $maxSteps = null,
         ?int $timeout = null,
     ): TextResponse {
-        $model = $data['model'] ?? '';
+        $model = $requestBody['model'] ?? $data['model'] ?? '';
         $content = $data['content'] ?? [];
 
         $text = $this->extractText($content);
